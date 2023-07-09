@@ -36,9 +36,10 @@ def read_provinces_data():
 
 
 def read_nations_data():
-    df = pa.read_csv(nations_filename)
+    df = pa.read_csv(nations_filename, keep_default_na=False)
     local_nations = []
     all_provinces = read_provinces_data()
+    provinces = []
 
     for index, row in df.iterrows():
         # string type
@@ -53,10 +54,18 @@ def read_nations_data():
         global_soldiers = row['global soldiers']
 
         # contracts array type
-        contracts = row['contracts'].split(',')
+        contracts = str(row['contracts'])
+        # Empty or a single item
+        if len(contracts) == 0:
+            contracts = ['']
+        else:
+            contracts = contracts.split(',')
 
         # Select relevant provinces from all_provinces
-        provinces = all_provinces[name]
+        try:
+            provinces = all_provinces[name]
+        except KeyError:
+            print('L BOZO this nation has no provinces')
 
         nation = Nation(name=name, global_capital=global_capital, accumulated_capital=accumulated_capital,
                         global_manpower=global_manpower, global_consumables=global_consumables, consumption=consumption,
@@ -103,6 +112,9 @@ if __name__ == "__main__":
     nations = init_session()
 
     print('tests')
-    test_id = '2-3'
+    test_id = '1-3'
     province = find_province_based_on_id(test_id, nations)
-    print(province.print_province())
+    if province:
+        print(province.print_province())
+    else:
+        print('no provinces')
