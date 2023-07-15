@@ -1,3 +1,5 @@
 venv
 .idea
 /data/data_excel.xlsx
+architecture.pdf
+.streamlit
