@@ -1,6 +1,3 @@
-from province import Province
-from contract import Contract
-
 from sqlalchemy import Column, Integer, String, REAL
 from sqlalchemy.ext.declarative import declarative_base
 
