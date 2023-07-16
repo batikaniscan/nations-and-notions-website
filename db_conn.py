@@ -20,5 +20,5 @@ def read_data(conn):
             )
         s.commit()
 
-        pet_owners = conn.query('select * from pet_owners', ttl=10)
+        pet_owners = conn.query('select * from pet_owners')
         st.dataframe(pet_owners)
